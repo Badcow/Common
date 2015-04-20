@@ -50,5 +50,24 @@ TEXT;
         $tmpFile->delete();
         $this->assertFalse(file_exists($tmpFile->getPath()));
     }
+
+    public function testDestruct()
+    {
+        $tmpFile = new TempFile(static::PREFIX);
+        $tmpFile->write($this->twoCities);
+        $path = $tmpFile->getPath();
+        $tmpFile->__destruct();
+        $this->assertFalse(file_exists($path));
+    }
+
+    public function testDoNotDestroy()
+    {
+        $tmpFile = new TempFile(static::PREFIX);
+        $tmpFile->write($this->twoCities);
+        $path = $tmpFile->getPath();
+        $tmpFile->doNotDestroy();
+        $tmpFile->__destruct();
+        $this->assertTrue(file_exists($path));
+    }
 }
  

@@ -15,6 +15,7 @@ class TempFile
     private $tmpFile;
     private $tmpDir;
     private $isDeleted = false;
+    private $doNotDestroy = false;
 
     public function __construct($prefix = '')
     {
@@ -50,6 +51,16 @@ class TempFile
     }
 
     /**
+     * Do not destroy the file on exit.
+     * 
+     * @param bool $val
+     */
+    public function doNotDestroy($val = true)
+    {
+        $this->doNotDestroy = (bool) $val;
+    }
+
+    /**
      * Delete the file
      */
     public function delete()
@@ -64,7 +75,10 @@ class TempFile
 
     public function __destruct()
     {
+        if ($this->doNotDestroy) {
+            return;
+        }
+        
         $this->delete();
     }
 }
- 
