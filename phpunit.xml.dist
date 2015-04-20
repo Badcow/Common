@@ -20,8 +20,8 @@
             <directory>./lib/</directory>
             <exclude>
                 <directory>./lib/Tests</directory>
+                <directory>./vendor/</directory>
             </exclude>
-            <directory>./vendor/</directory>
         </whitelist>
     </filter>
 </phpunit>
