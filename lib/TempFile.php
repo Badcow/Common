@@ -10,44 +10,16 @@
 
 namespace Badcow\Common;
 
-class TempFile
+class TempFile extends File
 {
-    private $tmpFile;
-    private $tmpDir;
-    private $isDeleted = false;
     private $doNotDestroy = false;
 
+    /**
+     * @param string $prefix
+     */
     public function __construct($prefix = '')
     {
-        $this->tmpDir = sys_get_temp_dir();
-        $this->tmpFile = tempnam($this->tmpDir, $prefix);
-    }
-
-    /**
-     * @param $string
-     * @param string $mode
-     */
-    public function write($string, $mode = 'w')
-    {
-        $handle = fopen($this->tmpFile, $mode);
-        fwrite($handle, $string);
-        fclose($handle);
-    }
-
-    /**
-     * @return string
-     */
-    public function read()
-    {
-        return file_get_contents($this->tmpFile);
-    }
-
-    /**
-     * @return string
-     */
-    public function getPath()
-    {
-        return $this->tmpFile;
+        $this->path = tempnam(sys_get_temp_dir(), $prefix);
     }
 
     /**
@@ -61,18 +33,8 @@ class TempFile
     }
 
     /**
-     * Delete the file
+     * The destructor
      */
-    public function delete()
-    {
-        if ($this->isDeleted) {
-            return;
-        }
-
-        unlink($this->tmpFile);
-        $this->isDeleted = true;
-    }
-
     public function __destruct()
     {
         if ($this->doNotDestroy) {

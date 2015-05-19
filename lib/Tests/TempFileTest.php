@@ -46,9 +46,10 @@ TEXT;
     public function testDelete()
     {
         $tmpFile = new TempFile(static::PREFIX);
-        $this->assertTrue(file_exists($tmpFile->getPath()));
+        $path = $tmpFile->getPath();
+        $this->assertTrue(file_exists($path));
         $tmpFile->delete();
-        $this->assertFalse(file_exists($tmpFile->getPath()));
+        $this->assertFalse(file_exists($path));
     }
 
     public function testDestruct()
