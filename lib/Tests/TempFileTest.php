@@ -29,29 +29,6 @@ TEXT;
         $this->assertTrue(file_exists($tmpFile->getPath()));
     }
 
-    public function testWrite()
-    {
-        $tmpFile = new TempFile(static::PREFIX);
-        $tmpFile->write($this->twoCities);
-        $this->assertEquals($this->twoCities, file_get_contents($tmpFile->getPath()));
-    }
-
-    public function testRead()
-    {
-        $tmpFile = new TempFile(static::PREFIX);
-        file_put_contents($tmpFile->getPath(), $this->twoCities);
-        $this->assertEquals($this->twoCities, $tmpFile->read());
-    }
-
-    public function testDelete()
-    {
-        $tmpFile = new TempFile(static::PREFIX);
-        $path = $tmpFile->getPath();
-        $this->assertTrue(file_exists($path));
-        $tmpFile->delete();
-        $this->assertFalse(file_exists($path));
-    }
-
     public function testDestruct()
     {
         $tmpFile = new TempFile(static::PREFIX);

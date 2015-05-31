@@ -10,7 +10,9 @@
 
 namespace Badcow\Common;
 
-class File
+use Badcow\Common\File\Mode;
+
+class File implements FileInterface
 {
     /**
      * @var string
@@ -23,16 +25,20 @@ class File
     private $isDeleted = false;
 
     /**
-     * @param string $path
+     * @param $path
+     * @throws \ErrorException
      */
     public function __construct($path)
     {
-        $path = realpath($path);
-        if (!file_exists($path)) {
-            touch($path);
+        $this->path = $path;
+
+        if (file_exists($this->path)) {
+            return;
         }
 
-        $this->path = $path;
+        if (!touch($this->path)) {
+            throw new \ErrorException(sprintf('Cannot create file with path "%s"', $this->path));
+        }
     }
 
     /**
@@ -47,7 +53,7 @@ class File
      * @param string $string
      * @param string $mode
      */
-    public function write($string, $mode = 'w')
+    public function write($string, $mode = Mode::OVERWRITE)
     {
         $handle = fopen($this->path, $mode);
         fwrite($handle, $string);
@@ -84,14 +90,14 @@ class File
     public function delete()
     {
         if ($this->isDeleted) {
-            return true;
+            return;
         }
 
         if (!unlink($this->path)) {
-            return false;
+            throw new \ErrorException(sprintf('File with path "%s" could not be deleted.', $this->path));
         }
 
         unset($this->path);
-        return $this->isDeleted = true;
+        $this->isDeleted = true;
     }
 }

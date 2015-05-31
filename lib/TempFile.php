@@ -19,7 +19,7 @@ class TempFile extends File
      */
     public function __construct($prefix = '')
     {
-        $this->path = tempnam(sys_get_temp_dir(), $prefix);
+        parent::__construct(tempnam(sys_get_temp_dir(), $prefix));
     }
 
     /**
