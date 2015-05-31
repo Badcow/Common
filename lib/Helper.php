@@ -13,16 +13,23 @@ namespace Badcow\Common;
 class Helper
 {
     /**
+     * Generates the default characters
+     *
+     * @return array
+     */
+    private static function defaultCharacters()
+    {
+        return array_merge(range(0, 9), range('a', 'z'), range('A', 'Z'));
+    }
+
+    /**
      * @param int $len
      * @param array $chars Use custom characters. Defaults to upper and lower case alphanumeric characters.
      * @return string
      */
     public static function random($len = 32, array $chars = null)
     {
-        if (!$chars) {
-            $chars = array_merge(range(0, 9), range('a', 'z'), range('A', 'Z'));
-        }
-
+        $chars = $chars ?: self::defaultCharacters();
         $output = '';
 
         for ($i = 0; $i < $len; $i++) {
