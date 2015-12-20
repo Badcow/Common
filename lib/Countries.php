@@ -18,7 +18,7 @@ class Countries
      *
      * @var array
      */
-    public static $countryCodes = array(
+    public static $countryCodes = [
         'AD' => 'Andorra',
         'AE' => 'United Arab Emirates',
         'AF' => 'Afghanistan',
@@ -267,8 +267,8 @@ class Countries
         'YT' => 'Mayotte',
         'ZA' => 'South Africa',
         'ZM' => 'Zambia',
-        'ZW' => 'Zimbabwe'
-    );
+        'ZW' => 'Zimbabwe',
+    ];
 
     /**
      * Verify if the country code is valid.
